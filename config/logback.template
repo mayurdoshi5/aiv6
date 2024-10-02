@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+    <springProperty scope="context" name="jsonlogs" source="app.logs.jsonlogs"/>
+    <springProperty scope="context" name="showdept" source="app.logs.showdept"/>
+    <springProperty scope="context" name="showtraceid" source="app.logs.showtraceid"/>
+
+    <appender name="CORE-FILE-ROLLING" class="ch.qos.logback.core.ConsoleAppender">
+
+
+        <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+            <providers>
+                <timestamp>
+                    <fieldName>Timestamp</fieldName>
+                    <timeZone>UTC</timeZone>
+                </timestamp>
+                <pattern>
+                    <omitEmptyFields>true</omitEmptyFields>
+                    <pattern>
+                        {
+                        "Message": "#asJson{%message}",
+                        "TraceId": "%mdc{traceId}",
+                        "ServiceHostName": "${hostname}",
+                        "PID": "${PID:-}",
+                        "Ex": "%ex"
+                        }
+                    </pattern>
+                </pattern>
+            </providers>
+        </encoder>
+    </appender>
+
+    <logger name="core" level="INFO" additivity="true">
+        <appender-ref ref="CORE-FILE-ROLLING"/>
+    </logger>
+
+     <appender name="DB-FILE-ROLLING" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
+            <layout class="ch.qos.logback.classic.PatternLayout">
+                <pattern>%message%n</pattern>
+            </layout>
+        </encoder>
+    </appender>
+
+    <logger name="db" level="INFO" additivity="true">
+        <appender-ref ref="DB-FILE-ROLLING"/>
+    </logger>
+
+    <appender name="DATA-FILE-ROLLING" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
+            <layout class="ch.qos.logback.classic.PatternLayout">
+                <pattern>%message%n</pattern>
+            </layout>
+        </encoder>
+    </appender>
+
+    <logger name="data" level="INFO" additivity="true">
+        <appender-ref ref="DATA-FILE-ROLLING"/>
+    </logger>
+
+
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <Pattern>%d %p %c{1.} [%t] %m%n</Pattern>
+        </layout>
+    </appender>
+
+    <root level="INFO">
+        <appender-ref ref="CONSOLE"/>
+    </root>
+
+</configuration>
