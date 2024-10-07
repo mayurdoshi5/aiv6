@@ -2,12 +2,12 @@
 
 # Set the variables
 aiv_port=8080
-aiv_db_url="jdbc:postgresql://localhost:5432?currentSchema=aiv"
-aiv_db_user="xfzfjdlxus"
-aiv_db_password="KVPa$AQuGstpy7LN"
-security_db_url="jdbc:postgresql://localhost:5432?currentSchema=security"
-security_db_user="xfzfjdlxus"
-security_db_password="KVPa$AQuGstpy7LN"
+aiv_db_url="jdbc:postgresql://aiv6-database:5432/postgres"
+aiv_db_user="nnsnxtzklh"
+aiv_db_password="v86nVb$qNf7pYz8T"
+security_db_url="jdbc:postgresql://aiv6-database:5432/postgres?currentSchema=security"
+security_db_user="nnsnxtzklh"
+security_db_password="v86nVb$qNf7pYz8T"
 aiv_base="$(pwd)"
 
 # Set file paths
